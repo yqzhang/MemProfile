@@ -40,6 +40,8 @@ END_LEGAL */
 INSTLIB::ICOUNT icount;
 UINT64 icount_lastmem;
 UINT64 icount_since_lastmem;
+UINT64 icount_lastbranch;
+UINT64 icound_since_lastbranch;
 
 #define MAX_NUM_REFS 2000000
 UINT64 num_mem_refs;
@@ -78,6 +80,10 @@ VOID TerminateTrace() {
   PIN_Detach();
 }
 
+VOID RecordBranch(VOID* ip, VOID* addr, INT32 taken) {
+  icount_lastbranch = icount.Count();
+}
+
 VOID RecordMemRead(VOID* ip, VOID* addr) {
   if (icount.Count() == icount_lastmem) {
     icount_since_lastmem = 0;
@@ -86,8 +92,11 @@ VOID RecordMemRead(VOID* ip, VOID* addr) {
     icount_lastmem = icount.Count();
   }
 
-  // Read/Write InstAddr MemAddr InstCount
-  OutFile << "R " << ip << " " << addr << " " << icount_since_lastmem << endl;
+  UINT64 dist_branch = icount.Count() - icount_lastbranch;
+
+  // Read/Write InstAddr MemAddr InstCount DistBranch
+  OutFile << "R " << ip << " " << addr << " " << icount_since_lastmem
+          << " " << dist_branch << endl;
   
   num_mem_refs++;
 
@@ -104,8 +113,11 @@ VOID RecordMemWrite(VOID* ip, VOID* addr) {
     icount_lastmem = icount.Count();
   }
 
+  UINT64 dist_branch = icount.Count() - icount_lastbranch;
+
   // Read/Write InstAddr MemAddr InstCount
-  OutFile << "W " << ip << " " << addr << " " << icount_since_lastmem << endl;
+  OutFile << "W " << ip << " " << addr << " " << icount_since_lastmem
+          << " " << dist_branch << endl;
 
   num_mem_refs++;
 
@@ -115,9 +127,22 @@ VOID RecordMemWrite(VOID* ip, VOID* addr) {
 }
 
 VOID Instruction(INS inst, VOID* v) {
-  UINT32 mem_operands = INS_MemoryOperandCount(inst);
+  // Branch Instruction
+  if (INS_IsBranchOrCall(inst)) {
+    INS_InsertCall(
+        inst,
+        IPOINT_BEFORE,
+        (AFUNPTR) RecordBranch, 
+        IARG_INST_PTR, 
+        IARG_BRANCH_TARGET_ADDR, 
+        IARG_BRANCH_TAKEN, 
+        IARG_END);
+  }
 
+  // Memory Instruction
+  UINT32 mem_operands = INS_MemoryOperandCount(inst);
   for (UINT mem_op = 0; mem_op < mem_operands; mem_op++) {
+    // Memory Read
     if (INS_MemoryOperandIsRead(inst, mem_op)) {
       INS_InsertPredicatedCall(
           inst,
@@ -128,6 +153,7 @@ VOID Instruction(INS inst, VOID* v) {
           mem_op,
           IARG_END);
     }
+    // Memory Write
     if (INS_MemoryOperandIsWritten(inst, mem_op)) {
       INS_InsertPredicatedCall(
           inst,
@@ -149,8 +175,11 @@ int main(int argc, char* argv[]) {
   OutFile.open(KnobOutputFile.Value().c_str());
 
   icount.Activate();
-  icount_lastmem = 1;
+
+  // Init all the global variables
   num_mem_refs = 1;
+  icount_lastmem = 1;
+  icount_lastbranch = 1;
 
   INS_AddInstrumentFunction(Instruction, 0);
 

@@ -86,7 +86,7 @@ VOID RecordMemRead(VOID* ip, VOID* addr) {
     icount_lastmem = icount.Count();
   }
 
-  //fprintf(trace, "R %p %p %lu\n", ip, addr, icount_since_lastmem);
+  // Read/Write InstAddr MemAddr InstCount
   OutFile << "R " << ip << " " << addr << " " << icount_since_lastmem << endl;
   
   num_mem_refs++;
@@ -104,7 +104,7 @@ VOID RecordMemWrite(VOID* ip, VOID* addr) {
     icount_lastmem = icount.Count();
   }
 
-  //fprintf(trace, "W %p %p %lu\n", ip, addr, icount_since_lastmem);
+  // Read/Write InstAddr MemAddr InstCount
   OutFile << "W " << ip << " " << addr << " " << icount_since_lastmem << endl;
 
   num_mem_refs++;

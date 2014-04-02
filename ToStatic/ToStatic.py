@@ -68,15 +68,50 @@ def parse_asm(asm_file):
       [line_index, function_name, inst_dict] = parse_asm_function(asm_content,
                                                                   i)
       #print([line_index, function_name, inst_dict])
-      funciont_dict[function_name] = inst_dict
+      function_dict[function_name] = inst_dict
       i = line_index
     else:
       i = i + 1
+  return function_dict
+
+def parse_dump_function(dump_content, line_index):
+  i = line_index
+  # Parse the function name first
+  sub_str = dump_content[i]
+  sub_str = sub_str[:-3]
+  function_name = sub_str[sub_str.find("<") + 1:]
+  i = i + 1
+  addr_list = []
+  while i < len(dump_content):
+    line = dump_content[i]
+    if line == "\n":
+      return [i + 1, function_name, addr_list]
+    else:
+      items = line.split("\t")
+      if len(items) > 2:
+        addr = items[0].strip()[:-1]
+        addr_list.append(addr)
+      i = i + 1
+  return [i, function_name, addr_list]
 
 # Parse a dump file from objdump -d
 # @param dump_file The path to an existing dump file
-def parse_dump(dump_file):
+def parse_dump(dump_file, function_dict):
   dump_content = read_by_line(dump_file)
+  i = 0
+  while i < len(dump_content):
+    line = dump_content[i]
+    if line.endswith(">:\n"):
+      [line_index, func_name, addr_list] = parse_dump_function(dump_content,
+                                                               i)
+      i = line_index
+      # Store the data back to function_dict
+      if func_name in function_dict:
+        for j in range(len(function_dict[func_name])):
+          function_dict[func_name][j]["addr"] = addr_list[j]
+    else:
+      i = i + 1
+  return function_dict
 
 # Parse the info dwarf section from readelf --debug-dump=info
 # @param elf_file The path to an existing elf file
@@ -108,8 +143,8 @@ def main():
   elif not os.path.isfile(elf_file):
     print("[FATAL] File {0} does not exist.".format(elf_file))
 
-  parse_asm(asm_file)
-  parse_dump(dump_file)
+  function_dict = parse_asm(asm_file)
+  function_dict = parse_dump(dump_file, function_dict)
   parse_elf(elf_file)
 
 if __name__ == "__main__":

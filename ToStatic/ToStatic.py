@@ -150,18 +150,26 @@ def parse_elf_type(elf_content, line_index):
   index_str = index_str[:index_str.find(">")]
   type_index = index_str
   type_size = 1
+  # If const
   if_const = False
   const_str = elf_content[line_index]
   if "const_type" in const_str:
     if_const = True
   else:
     if_const = False
+  # If pointer
+  if_pointer = False
+  pointer_str = elf_content[line_index]
+  if "pointer_type" in pointer_str:
+    if_pointer = True
+  else:
+    if_pointer = False
   i = i + 1
   while i < len(elf_content):
     line = elf_content[i]
     if line.startswith(" <1>"):
       # The end of this type section
-      return [i, type_index, type_size, if_const]
+      return [i, type_index, type_size, if_const, if_pointer]
     else:
       # type_size = upper_bound + 1
       if "DW_AT_upper_bound" in line:
@@ -202,6 +210,13 @@ def parse_elf_function(elf_content, line_index, type_dict):
       i = line_index
     elif line.endswith("variable)\n"):
       # This is a variable
+      [line_index, var_name, v_dict] = parse_elf_variable(elf_content,
+                                                          i, type_dict,
+                                                          low_pc, high_pc)
+      var_dict[var_name] = v_dict
+      i = line_index
+    elif line.endswith("parameter)\n"):
+      # This is a parameter
       [line_index, var_name, v_dict] = parse_elf_variable(elf_content,
                                                           i, type_dict,
                                                           low_pc, high_pc)
@@ -313,6 +328,7 @@ def parse_elf_variable(elf_content, line_index, type_dict, low_pc, high_pc):
         # Look up the type_dict to get the size
         var_dict["size"] = type_dict[type_str]["size"]
         var_dict["if_const"] = type_dict[type_str]["if_const"]
+        var_dict["if_pointer"] = type_dict[type_str]["if_pointer"]
       elif "DW_AT_location" in line:
         # Check if it is a static variable
         items = line.strip().split()
@@ -337,11 +353,12 @@ def parse_elf(elf_file):
   while i < len(elf_content):
     line = elf_content[i]
     if line.startswith(" <1>") and line.endswith("type)\n"):
-      [line_index, type_index, type_size, if_const] = parse_elf_type(elf_content,
-                                                                     i)
+      [line_index, type_index, type_size, if_const, if_pointer] = \
+          parse_elf_type(elf_content, i)
       type_dict[type_index] = {}
       type_dict[type_index]["size"] = type_size
       type_dict[type_index]["if_const"] = if_const
+      type_dict[type_index]["if_pointer"] = if_pointer
       i = line_index
     else:
       i = i + 1

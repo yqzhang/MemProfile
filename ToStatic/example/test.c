@@ -1,4 +1,6 @@
-loop() {
+#include <stdlib.h>
+
+void loop() {
   int a[1024];
   while (1) {
     int i;
@@ -7,6 +9,11 @@ loop() {
       a[i]++;
     }
   }
+}
+
+void dynamic(double param_double) {
+  int* pt = (int*) malloc(10 * sizeof(int));
+  free(pt);
 }
 
 const int global_const[20];

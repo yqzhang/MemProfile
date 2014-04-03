@@ -9,6 +9,8 @@ import json
 
 import os.path
 
+from collections import defaultdict
+
 # Read a file line by line and return the content in a list
 # @param filename The path to an existing file
 # @return A list of lines in the specified file
@@ -384,13 +386,53 @@ def parse_elf(elf_file):
       i = i + 1
   return variable_dict
 
+# Parse the function_dict and index the instructions by their addresses
+# @param function_dict The original function dictionary
+# @return instruction_dict A dictionary to all the instructions indexed by addr
+def index_by_addr(function_dict):
+  # Initialize the dictionary
+  instruction_dict = {}
+  for func, inst in function_dict.items():
+    for index, detail in inst.items():
+      dict_key = int(detail["addr"], 16)
+      dict_value = {
+          "function": func,
+          "instruction": detail["instruction"],
+          "operand_0": detail["operand_0"],
+          "operand_1": detail["operand_1"]
+          }
+      instruction_dict[dict_key] = dict_value
+  return instruction_dict
+
 # Parse the memory accesses profile
 # @param acc_file The memory accesses profiling file
-# @function_dict The dictionary to functions
+# @instruction_dict The dictionary to instructions
 # @variable_dict The dictionary to variables
-def parse_acc(acc_file, function_dict, variable_dict):
+def parse_acc(acc_file, instruction_dict, variable_dict):
   acc_content = read_by_line(acc_file)
-  # TODO
+  tracking_dict = defaultdict(lambda: defaultdict(int))
+  i = 0
+  inst_count = 0
+  while i < len(acc_content):
+    line = acc_content[i]
+    # R/W inst_addr mem_addr mem_dist branch_dist
+    items = line.strip().split()
+    inst_addr = int(items[1])
+    inst_count = inst_count + int(items[3])
+    # The total number of instructions so far
+    tracking_dict[items[2]]["last_access"] = inst_count
+    # Total number of accesses to the memory address
+    tracking_dict[items[2]]["total_access"] = \
+        tracking_dict[items[2]]["total_access"] + 1
+    # Total number of accesses of write to the memory address
+    if items[0] == "W":
+      tracking_dict[items[2]]["write_access"] = \
+          tracking_dict[items[2]]["write_access"] + 1
+    if inst_addr in instruction_dict:
+      # size, if_static, if_const, if_global, if_pointer, lifetime,
+      # access_type, historical_percentage, mem_dist, branch_dist, reuse_dist
+      # TODO
+    i = i + 1
 
 # Main function
 def main():
@@ -424,10 +466,16 @@ def main():
 
   function_dict = parse_asm(asm_file)
   function_dict = parse_dump(dump_file, function_dict)
-  print(json.dumps(function_dict, indent=2))
+  #print(json.dumps(function_dict, indent=2))
   variable_dict = parse_elf(elf_file)
-  print(json.dumps(variable_dict, indent=2))
-  feature_list = parse_acc(acc_file, function_dict, variable_dict)
+  #print(json.dumps(variable_dict, indent=2))
+
+  # Parse the function_dict and index instruction with addresses
+  # All the indexing addresses are integers
+  instruction_dict = index_by_addr(function_dict)
+  #print(json.dumps(instruction_dict, indent=2))
+
+  feature_list = parse_acc(acc_file, instruction_dict, variable_dict)
 
 if __name__ == "__main__":
   main()

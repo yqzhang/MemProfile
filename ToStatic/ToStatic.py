@@ -343,6 +343,14 @@ def parse_elf(elf_file):
       i = i + 1
   return variable_dict
 
+# Parse the memory accesses profile
+# @param acc_file The memory accesses profiling file
+# @function_dict The dictionary to functions
+# @variable_dict The dictionary to variables
+def parse_acc(acc_file, function_dict, variable_dict):
+  acc_content = read_by_line(acc_file)
+  # TODO
+
 # Main function
 def main():
   # Parse the arguments
@@ -376,6 +384,7 @@ def main():
   function_dict = parse_asm(asm_file)
   function_dict = parse_dump(dump_file, function_dict)
   variable_dict = parse_elf(elf_file)
+  feature_list = parse_acc(acc_file, function_dict, variable_dict)
 
 if __name__ == "__main__":
   main()

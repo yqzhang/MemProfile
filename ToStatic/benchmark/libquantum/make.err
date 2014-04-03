@@ -1,0 +1,25 @@
+gates.c: In function 'quantum_gate1':
+gates.c:365:7: warning: format '%i' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+       (reg->size + addsize) * sizeof(char));
+       ^
+gates.c: In function 'quantum_gate2':
+gates.c:543:7: warning: format '%i' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+       (reg->size + addsize) * sizeof(char));
+       ^
+gcc: error: classic.o: No such file or directory
+gcc: error: complex.o: No such file or directory
+gcc: error: decoherence.o: No such file or directory
+gcc: error: expn.o: No such file or directory
+gcc: error: gates.o: No such file or directory
+gcc: error: matrix.o: No such file or directory
+gcc: error: measure.o: No such file or directory
+gcc: error: oaddn.o: No such file or directory
+gcc: error: objcode.o: No such file or directory
+gcc: error: omuln.o: No such file or directory
+gcc: error: qec.o: No such file or directory
+gcc: error: qft.o: No such file or directory
+gcc: error: qureg.o: No such file or directory
+gcc: error: shor.o: No such file or directory
+gcc: error: version.o: No such file or directory
+gcc: error: specrand.o: No such file or directory
+specmake: *** [libquantum] Error 1

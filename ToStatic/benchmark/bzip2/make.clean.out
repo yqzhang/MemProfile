@@ -1,0 +1,6 @@
+rm -rf bzip2
+rm -rf bzip2.exe
+rm -rf *.o  byoudoin.jpg.out input.combined.out input.program.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

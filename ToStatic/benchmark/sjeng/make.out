@@ -1,0 +1,20 @@
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         attacks.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         book.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         crazy.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         draw.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         ecache.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         epd.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         eval.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         leval.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         moves.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         neval.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         partner.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         proof.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         rcfile.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         search.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         see.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         seval.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         sjeng.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         ttable.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         utils.c
+/usr/bin/gcc   -g -fno-strict-aliasing  -DSPEC_CPU_LP64        attacks.o book.o crazy.o draw.o ecache.o epd.o eval.o leval.o moves.o neval.o partner.o proof.o rcfile.o search.o see.o seval.o sjeng.o ttable.o utils.o                   -static  -o sjeng

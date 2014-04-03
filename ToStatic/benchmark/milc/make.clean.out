@@ -1,0 +1,6 @@
+rm -rf milc
+rm -rf milc.exe
+rm -rf *.o  su3imp.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

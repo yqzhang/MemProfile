@@ -1,0 +1,10 @@
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         spec.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         blocksort.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         bzip2.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         bzlib.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         compress.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         crctable.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         decompress.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         huffman.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         randtable.c
+/usr/bin/gcc   -g -fno-strict-aliasing  -DSPEC_CPU_LP64        spec.o blocksort.o bzip2.o bzlib.o compress.o crctable.o decompress.o huffman.o randtable.o                   -static  -o bzip2

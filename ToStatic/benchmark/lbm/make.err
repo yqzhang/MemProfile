@@ -1,0 +1,9 @@
+lbm.c: In function 'LBM_compareVelocityField':
+lbm.c:663:7: warning: format '%lf' expects argument of type 'double *', but argument 3 has type 'float *' [-Wformat=]
+       fscanf( file, "%lf %lf %lf\n", &fileUx, &fileUy, &fileUz );
+       ^
+lbm.c:663:7: warning: format '%lf' expects argument of type 'double *', but argument 4 has type 'float *' [-Wformat=]
+lbm.c:663:7: warning: format '%lf' expects argument of type 'double *', but argument 5 has type 'float *' [-Wformat=]
+gcc: error: lbm.o: No such file or directory
+gcc: error: main.o: No such file or directory
+specmake: *** [lbm] Error 1

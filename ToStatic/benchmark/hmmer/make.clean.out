@@ -1,0 +1,6 @@
+rm -rf hmmer
+rm -rf hmmer.exe
+rm -rf *.o  leng100.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

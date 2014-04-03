@@ -1,0 +1,6 @@
+rm -rf mcf
+rm -rf mcf.exe
+rm -rf *.o  inp.out mcf.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

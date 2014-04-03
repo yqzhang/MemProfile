@@ -1,0 +1,63 @@
+In file included from bzip2.c:155:0:
+bzip2.c: In function 'compressStream':
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzip2.c:484:32: note: in expansion of macro 'SPEC_NULLCAST'
+       outputHandleJustInCase = SPEC_NULLCAST NULL;
+                                ^
+bzip2.c:487:27: warning: assignment makes integer from pointer without a cast [enabled by default]
+    outputHandleJustInCase = NULL;
+                           ^
+In file included from bzip2.c:155:0:
+bzip2.c: In function 'uncompressStream':
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzip2.c:611:32: note: in expansion of macro 'SPEC_NULLCAST'
+       outputHandleJustInCase = SPEC_NULLCAST NULL;
+                                ^
+bzip2.c:614:27: warning: assignment makes integer from pointer without a cast [enabled by default]
+    outputHandleJustInCase = NULL;
+                           ^
+In file included from bzlib_private.h:73:0,
+                 from bzlib.c:77:
+bzlib.c: In function 'BZ2_bzWriteOpen':
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzlib.c:996:13: note: in expansion of macro 'SPEC_NULLCAST'
+    if (f == SPEC_NULLCAST NULL ||
+             ^
+bzlib.c: In function 'BZ2_bzReadOpen':
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzlib.c:1172:13: note: in expansion of macro 'SPEC_NULLCAST'
+    if (f == SPEC_NULLCAST NULL || 
+             ^
+bzlib.c: In function 'bzopen_or_bzdopen':
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzlib.c:1512:12: note: in expansion of macro 'SPEC_NULLCAST'
+       fp = SPEC_NULLCAST NULL;
+            ^
+bzlib.h:80:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    #  define SPEC_NULLCAST (int)
+                            ^
+bzlib.c:1521:14: note: in expansion of macro 'SPEC_NULLCAST'
+    if (fp == SPEC_NULLCAST NULL) return NULL;
+              ^
+gcc: error: spec.o: No such file or directory
+gcc: error: blocksort.o: No such file or directory
+gcc: error: bzip2.o: No such file or directory
+gcc: error: bzlib.o: No such file or directory
+gcc: error: compress.o: No such file or directory
+gcc: error: crctable.o: No such file or directory
+gcc: error: decompress.o: No such file or directory
+gcc: error: huffman.o: No such file or directory
+gcc: error: randtable.o: No such file or directory
+gcc: fatal error: no input files
+compilation terminated.
+specmake: *** [bzip2] Error 4

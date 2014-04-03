@@ -1,0 +1,56 @@
+stdio.c: In function 'xsfprintf':
+stdio.c:26:3: warning: format not a string literal and no format arguments [-Wformat-security]
+   return fprintf( stream, text );
+   ^
+gcc: error: av.o: No such file or directory
+gcc: error: deb.o: No such file or directory
+gcc: error: doio.o: No such file or directory
+gcc: error: doop.o: No such file or directory
+gcc: error: dump.o: No such file or directory
+gcc: error: globals.o: No such file or directory
+gcc: error: gv.o: No such file or directory
+gcc: error: hv.o: No such file or directory
+gcc: error: locale.o: No such file or directory
+gcc: error: mg.o: No such file or directory
+gcc: error: numeric.o: No such file or directory
+gcc: error: op.o: No such file or directory
+gcc: error: pad.o: No such file or directory
+gcc: error: perl.o: No such file or directory
+gcc: error: perlapi.o: No such file or directory
+gcc: error: perlio.o: No such file or directory
+gcc: error: perlmain.o: No such file or directory
+gcc: error: perly.o: No such file or directory
+gcc: error: pp.o: No such file or directory
+gcc: error: pp_ctl.o: No such file or directory
+gcc: error: pp_hot.o: No such file or directory
+gcc: error: pp_pack.o: No such file or directory
+gcc: error: pp_sort.o: No such file or directory
+gcc: error: pp_sys.o: No such file or directory
+gcc: error: regcomp.o: No such file or directory
+gcc: error: regexec.o: No such file or directory
+gcc: error: run.o: No such file or directory
+gcc: error: scope.o: No such file or directory
+gcc: error: sv.o: No such file or directory
+gcc: error: taint.o: No such file or directory
+gcc: error: toke.o: No such file or directory
+gcc: error: universal.o: No such file or directory
+gcc: error: utf8.o: No such file or directory
+gcc: error: util.o: No such file or directory
+gcc: error: xsutils.o: No such file or directory
+gcc: error: Base64.o: No such file or directory
+gcc: error: Cwd.o: No such file or directory
+gcc: error: Dumper.o: No such file or directory
+gcc: error: HiRes.o: No such file or directory
+gcc: error: IO.o: No such file or directory
+gcc: error: Peek.o: No such file or directory
+gcc: error: attrs.o: No such file or directory
+gcc: error: poll.o: No such file or directory
+gcc: error: stdio.o: No such file or directory
+gcc: error: DynaLoader.o: No such file or directory
+gcc: error: MD5.o: No such file or directory
+gcc: error: Storable.o: No such file or directory
+gcc: error: Parser.o: No such file or directory
+gcc: error: specrand.o: No such file or directory
+gcc: error: Hostname.o: No such file or directory
+gcc: error: Opcode.o: No such file or directory
+specmake: *** [perlbench] Error 1

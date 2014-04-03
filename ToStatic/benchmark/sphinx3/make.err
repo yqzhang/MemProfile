@@ -1,0 +1,57 @@
+live.c: In function 'live_utt_summary':
+live.c:367:5: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
+     fprintf (confp, "%22d grand total considered\n", tot_considered);
+     ^
+new_fe.c: In function 'fe_process_utt':
+new_fe.c:193:2: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
+  fprintf(stderr,"memory alloc for cep failed in fe_process_utt()\n\tfe_create_2d(%ld,%d,%d)\n...exiting\n",(long int) (frame_count+1),FE->NUM_CEPSTRA,sizeof(float32));  /* typecast to make the compiler happy - EBG */
+  ^
+utt.c: In function 'utt_end':
+utt.c:273:7: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long int' [-Wformat=]
+       fprintf (confp, "%22d considered for utterance %s\n", considered, kb->uttid );
+       ^
+gcc: error: spec_main_live_pretend.o: No such file or directory
+gcc: error: parse_args_file.o: No such file or directory
+gcc: error: live.o: No such file or directory
+gcc: error: agc.o: No such file or directory
+gcc: error: approx_cont_mgau.o: No such file or directory
+gcc: error: ascr.o: No such file or directory
+gcc: error: beam.o: No such file or directory
+gcc: error: bio.o: No such file or directory
+gcc: error: case.o: No such file or directory
+gcc: error: ckd_alloc.o: No such file or directory
+gcc: error: cmd_ln.o: No such file or directory
+gcc: error: cmn.o: No such file or directory
+gcc: error: cmn_prior.o: No such file or directory
+gcc: error: cont_mgau.o: No such file or directory
+gcc: error: dict.o: No such file or directory
+gcc: error: dict2pid.o: No such file or directory
+gcc: error: err.o: No such file or directory
+gcc: error: feat.o: No such file or directory
+gcc: error: fillpen.o: No such file or directory
+gcc: error: glist.o: No such file or directory
+gcc: error: gs.o: No such file or directory
+gcc: error: hash.o: No such file or directory
+gcc: error: heap.o: No such file or directory
+gcc: error: hmm.o: No such file or directory
+gcc: error: io.o: No such file or directory
+gcc: error: kb.o: No such file or directory
+gcc: error: kbcore.o: No such file or directory
+gcc: error: lextree.o: No such file or directory
+gcc: error: lm.o: No such file or directory
+gcc: error: lmclass.o: No such file or directory
+gcc: error: logs3.o: No such file or directory
+gcc: error: mdef.o: No such file or directory
+gcc: error: new_fe.o: No such file or directory
+gcc: error: new_fe_sp.o: No such file or directory
+gcc: error: profile.o: No such file or directory
+gcc: error: specrand.o: No such file or directory
+gcc: error: str2words.o: No such file or directory
+gcc: error: subvq.o: No such file or directory
+gcc: error: tmat.o: No such file or directory
+gcc: error: unlimit.o: No such file or directory
+gcc: error: utt.o: No such file or directory
+gcc: error: vector.o: No such file or directory
+gcc: error: vithist.o: No such file or directory
+gcc: error: wid.o: No such file or directory
+specmake: *** [sphinx_livepretend] Error 1

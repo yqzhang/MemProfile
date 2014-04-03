@@ -1,0 +1,22 @@
+gcc: error: attacks.o: No such file or directory
+gcc: error: book.o: No such file or directory
+gcc: error: crazy.o: No such file or directory
+gcc: error: draw.o: No such file or directory
+gcc: error: ecache.o: No such file or directory
+gcc: error: epd.o: No such file or directory
+gcc: error: eval.o: No such file or directory
+gcc: error: leval.o: No such file or directory
+gcc: error: moves.o: No such file or directory
+gcc: error: neval.o: No such file or directory
+gcc: error: partner.o: No such file or directory
+gcc: error: proof.o: No such file or directory
+gcc: error: rcfile.o: No such file or directory
+gcc: error: search.o: No such file or directory
+gcc: error: see.o: No such file or directory
+gcc: error: seval.o: No such file or directory
+gcc: error: sjeng.o: No such file or directory
+gcc: error: ttable.o: No such file or directory
+gcc: error: utils.o: No such file or directory
+gcc: fatal error: no input files
+compilation terminated.
+specmake: *** [sjeng] Error 4

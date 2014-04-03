@@ -1,0 +1,6 @@
+rm -rf gcc
+rm -rf gcc.exe
+rm -rf *.o  integrate.s
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

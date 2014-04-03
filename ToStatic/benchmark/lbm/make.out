@@ -1,0 +1,3 @@
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         lbm.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG    -g -fno-strict-aliasing       -DSPEC_CPU_LP64         main.c
+/usr/bin/gcc   -g -fno-strict-aliasing  -DSPEC_CPU_LP64        lbm.o main.o             -lm      -static  -o lbm

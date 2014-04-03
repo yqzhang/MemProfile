@@ -1,0 +1,6 @@
+rm -rf sphinx_livepretend
+rm -rf sphinx_livepretend.exe
+rm -rf *.o  an4.log considered.out total_considered.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

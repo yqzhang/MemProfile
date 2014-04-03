@@ -1,0 +1,89 @@
+io_lat4.c: In function 'qcdhdr_get_hdr':
+io_lat4.c:195:11: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     len = (int) q - (int) line;
+           ^
+io_lat4.c:195:21: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     len = (int) q - (int) line;
+                     ^
+io_lat4.c: In function 'read_gauge_hdr':
+io_lat4.c:1334:37: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+        (char *)GAUGE_VERSION_NUMBER,(char *)tmp);
+                                     ^
+In file included from generic_includes.h:13:0,
+                 from com_vanilla.c:83:
+com_vanilla.c: In function 'field_pointer_at_direction':
+macros.h:45:29: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+ #define F_PT( site , fo )  ((char *)( site ) + (fo)) 
+                             ^
+com_vanilla.c:843:13: note: in expansion of macro 'F_PT'
+     return( F_PT( neighbor[direction][s-lattice], field ) );
+             ^
+gcc: error: control.o: No such file or directory
+gcc: error: f_meas.o: No such file or directory
+gcc: error: gauge_info.o: No such file or directory
+gcc: error: setup.o: No such file or directory
+gcc: error: update.o: No such file or directory
+gcc: error: update_h.o: No such file or directory
+gcc: error: update_u.o: No such file or directory
+gcc: error: layout_hyper.o: No such file or directory
+gcc: error: check_unitarity.o: No such file or directory
+gcc: error: d_plaq4.o: No such file or directory
+gcc: error: gaugefix2.o: No such file or directory
+gcc: error: io_helpers.o: No such file or directory
+gcc: error: io_lat4.o: No such file or directory
+gcc: error: make_lattice.o: No such file or directory
+gcc: error: path_product.o: No such file or directory
+gcc: error: ploop3.o: No such file or directory
+gcc: error: ranmom.o: No such file or directory
+gcc: error: ranstuff.o: No such file or directory
+gcc: error: reunitarize2.o: No such file or directory
+gcc: error: gauge_stuff.o: No such file or directory
+gcc: error: grsource_imp.o: No such file or directory
+gcc: error: mat_invert.o: No such file or directory
+gcc: error: quark_stuff.o: No such file or directory
+gcc: error: rephase.o: No such file or directory
+gcc: error: cmplx.o: No such file or directory
+gcc: error: addmat.o: No such file or directory
+gcc: error: addvec.o: No such file or directory
+gcc: error: clear_mat.o: No such file or directory
+gcc: error: clearvec.o: No such file or directory
+gcc: error: m_amatvec.o: No such file or directory
+gcc: error: m_mat_an.o: No such file or directory
+gcc: error: m_mat_na.o: No such file or directory
+gcc: error: m_mat_nn.o: No such file or directory
+gcc: error: m_matvec.o: No such file or directory
+gcc: error: make_ahmat.o: No such file or directory
+gcc: error: rand_ahmat.o: No such file or directory
+gcc: error: realtr.o: No such file or directory
+gcc: error: s_m_a_mat.o: No such file or directory
+gcc: error: s_m_a_vec.o: No such file or directory
+gcc: error: s_m_s_mat.o: No such file or directory
+gcc: error: s_m_vec.o: No such file or directory
+gcc: error: s_m_mat.o: No such file or directory
+gcc: error: su3_adjoint.o: No such file or directory
+gcc: error: su3_dot.o: No such file or directory
+gcc: error: su3_rdot.o: No such file or directory
+gcc: error: su3_proj.o: No such file or directory
+gcc: error: su3mat_copy.o: No such file or directory
+gcc: error: submat.o: No such file or directory
+gcc: error: subvec.o: No such file or directory
+gcc: error: trace_su3.o: No such file or directory
+gcc: error: uncmp_ahmat.o: No such file or directory
+gcc: error: msq_su3vec.o: No such file or directory
+gcc: error: sub4vecs.o: No such file or directory
+gcc: error: m_amv_4dir.o: No such file or directory
+gcc: error: m_amv_4vec.o: No such file or directory
+gcc: error: m_mv_s_4dir.o: No such file or directory
+gcc: error: m_su2_mat_vec_n.o: No such file or directory
+gcc: error: l_su2_hit_n.o: No such file or directory
+gcc: error: r_su2_hit_a.o: No such file or directory
+gcc: error: m_su2_mat_vec_a.o: No such file or directory
+gcc: error: gaussrand.o: No such file or directory
+gcc: error: byterevn.o: No such file or directory
+gcc: error: m_mat_hwvec.o: No such file or directory
+gcc: error: m_amat_hwvec.o: No such file or directory
+gcc: error: dslash_fn2.o: No such file or directory
+gcc: error: d_congrad5_fn.o: No such file or directory
+gcc: error: com_vanilla.o: No such file or directory
+gcc: error: io_nonansi.o: No such file or directory
+specmake: *** [milc] Error 1

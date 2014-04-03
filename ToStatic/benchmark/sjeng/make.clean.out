@@ -1,0 +1,6 @@
+rm -rf sjeng
+rm -rf sjeng.exe
+rm -rf *.o  train.out
+find . \( -name \*.o -o -name '*.fppized.f*' \) -print | xargs rm -rf
+rm -rf core
+rm -rf 

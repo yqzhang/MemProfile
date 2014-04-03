@@ -1,0 +1,12 @@
+gcc: error: mcf.o: No such file or directory
+gcc: error: mcfutil.o: No such file or directory
+gcc: error: readmin.o: No such file or directory
+gcc: error: implicit.o: No such file or directory
+gcc: error: pstart.o: No such file or directory
+gcc: error: output.o: No such file or directory
+gcc: error: treeup.o: No such file or directory
+gcc: error: pbla.o: No such file or directory
+gcc: error: pflowup.o: No such file or directory
+gcc: error: psimplex.o: No such file or directory
+gcc: error: pbeampp.o: No such file or directory
+specmake: *** [mcf] Error 1

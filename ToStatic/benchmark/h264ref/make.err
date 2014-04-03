@@ -1,0 +1,51 @@
+fmo.c: In function 'FmoGenerateMapUnitToSliceGroupMap':
+fmo.c:114:5: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+     printf ("cannot allocated %d bytes for MapUnitToSliceGroupMap, exit\n", PicSizeInMapUnits * sizeof (byte));
+     ^
+fmo.c: In function 'FmoGenerateMBAmap':
+fmo.c:178:5: warning: format '%d' expects argument of type 'int', but argument 2 has type 'long unsigned int' [-Wformat=]
+     printf ("cannot allocated %d bytes for MBAmap, exit\n", (img->PicSizeInMbs) * sizeof (byte));
+     ^
+gcc: error: annexb.o: No such file or directory
+gcc: error: biariencode.o: No such file or directory
+gcc: error: block.o: No such file or directory
+gcc: error: cabac.o: No such file or directory
+gcc: error: configfile.o: No such file or directory
+gcc: error: context_ini.o: No such file or directory
+gcc: error: decoder.o: No such file or directory
+gcc: error: explicit_gop.o: No such file or directory
+gcc: error: fast_me.o: No such file or directory
+gcc: error: filehandle.o: No such file or directory
+gcc: error: fmo.o: No such file or directory
+gcc: error: header.o: No such file or directory
+gcc: error: image.o: No such file or directory
+gcc: error: intrarefresh.o: No such file or directory
+gcc: error: leaky_bucket.o: No such file or directory
+gcc: error: lencod.o: No such file or directory
+gcc: error: loopFilter.o: No such file or directory
+gcc: error: macroblock.o: No such file or directory
+gcc: error: mb_access.o: No such file or directory
+gcc: error: mbuffer.o: No such file or directory
+gcc: error: memalloc.o: No such file or directory
+gcc: error: mv-search.o: No such file or directory
+gcc: error: nal.o: No such file or directory
+gcc: error: nalu.o: No such file or directory
+gcc: error: nalucommon.o: No such file or directory
+gcc: error: output.o: No such file or directory
+gcc: error: parset.o: No such file or directory
+gcc: error: parsetcommon.o: No such file or directory
+gcc: error: q_matrix.o: No such file or directory
+gcc: error: q_offsets.o: No such file or directory
+gcc: error: ratectl.o: No such file or directory
+gcc: error: rdopt.o: No such file or directory
+gcc: error: rdopt_coding_state.o: No such file or directory
+gcc: error: rdpicdecision.o: No such file or directory
+gcc: error: refbuf.o: No such file or directory
+gcc: error: rtp.o: No such file or directory
+gcc: error: sei.o: No such file or directory
+gcc: error: slice.o: No such file or directory
+gcc: error: transform8x8.o: No such file or directory
+gcc: error: vlc.o: No such file or directory
+gcc: error: weighted_prediction.o: No such file or directory
+gcc: error: specrand.o: No such file or directory
+specmake: *** [h264ref] Error 1

@@ -1,0 +1,12 @@
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         mcf.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         mcfutil.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         readmin.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         implicit.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         pstart.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         output.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         treeup.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         pbla.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         pflowup.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         psimplex.c
+/usr/bin/gcc -S -fverbose-asm -DSPEC_CPU -DNDEBUG  -DWANT_STDC_PROTO  -g -fno-strict-aliasing       -DSPEC_CPU_LP64         pbeampp.c
+/usr/bin/gcc   -g -fno-strict-aliasing  -DSPEC_CPU_LP64        mcf.o mcfutil.o readmin.o implicit.o pstart.o output.o treeup.o pbla.o pflowup.o psimplex.o pbeampp.o             -lm      -static  -o mcf

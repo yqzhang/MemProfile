@@ -426,6 +426,7 @@ def calculate_lifetime(variable_dict, instruction_dict):
 def parse_acc(acc_file, instruction_dict, variable_dict):
   acc_content = read_by_line(acc_file)
   tracking_dict = defaultdict(lambda: defaultdict(int))
+  feature_list = []
   i = 0
   inst_count = 0
   while i < len(acc_content):
@@ -434,6 +435,54 @@ def parse_acc(acc_file, instruction_dict, variable_dict):
     items = line.strip().split()
     inst_addr = int(items[1], 16)
     inst_count = inst_count + int(items[3])
+    if inst_addr in instruction_dict:
+      # addr, size, if_static, if_const, if_global, if_pointer, lifetime,
+      # access_type, historical_percentage, mem_dist, branch_dist, reuse_dist
+      temp_func_name = instruction_dict[inst_addr]["function"]
+      temp_variable = None
+      if instruction_dict[inst_addr]["operand_0"] is not None:
+        temp_variable = instruction_dict[inst_addr]["operand_0"]
+      else:
+        temp_variable = instruction_dict[inst_addr]["operand_1"]
+      if temp_variable is not None and \
+          temp_variable in variable_dict[temp_func_name]:
+        temp_percentage = 0.0
+        if tracking_dict[items[2]]["total_access"] != 0:
+          temp_percentage = float(tracking_dict[items[2]]["write_access"]) \
+              / float(tracking_dict[items[2]]["total_access"])
+        temp_reuse_dist = inst_count - tracking_dict[items[2]]["last_access"]
+        temp_if_global = False
+        if temp_func_name == "GLOBAL":
+          temp_if_global = True
+        temp_dict = variable_dict[temp_func_name][temp_variable]
+        # ALl the interesting features
+        local_addr = items[2]
+        local_size = temp_dict["size"]
+        local_if_static = temp_dict["if_static"]
+        local_if_const = temp_dict["if_const"]
+        local_if_global = temp_if_global
+        local_if_pointer = temp_dict["if_pointer"]
+        local_lifetime = temp_dict["lifetime"]
+        local_access_type = items[0]
+        local_historical_percentage = temp_percentage
+        local_mem_dist = int(items[3])
+        local_branch_dist = int(items[4])
+        local_reuse_dist = temp_reuse_dist
+        local_dict = {
+            "addr": local_addr,
+            "size": local_size,
+            "if_static": local_if_static,
+            "if_const": local_if_const,
+            "if_global": local_if_global,
+            "if_pointer": local_if_pointer,
+            "lifetime": local_lifetime,
+            "access_type": local_access_type,
+            "historical_percentage": local_historical_percentage,
+            "mem_dist": local_mem_dist,
+            "branch_dist": local_branch_dist,
+            "reuse_dist": local_reuse_dist,
+            }
+        feature_list.append(local_dict)
     # The total number of instructions so far
     tracking_dict[items[2]]["last_access"] = inst_count
     # Total number of accesses to the memory address
@@ -443,12 +492,18 @@ def parse_acc(acc_file, instruction_dict, variable_dict):
     if items[0] == "W":
       tracking_dict[items[2]]["write_access"] = \
           tracking_dict[items[2]]["write_access"] + 1
-    if inst_addr in instruction_dict:
-      # size, if_static, if_const, if_global, if_pointer, lifetime,
-      # access_type, historical_percentage, mem_dist, branch_dist, reuse_dist
-      # TODO
-      pass
     i = i + 1
+  # Calculate the overall write percentage
+  i = 0
+  for i in range(len(feature_list)):
+    local_output = 0.0
+    if tracking_dict[feature_list[i]["addr"]]["total_access"] != 0:
+      local_output = \
+          float(tracking_dict[feature_list[i]["addr"]]["write_access"]) \
+          / float(tracking_dict[feature_list[i]["addr"]]["total_access"])
+    feature_list[i]["output"] = local_output
+  # Return the feature list
+  return feature_list
 
 # Main function
 def main():
@@ -496,6 +551,19 @@ def main():
   #print(json.dumps(variable_dict, indent=2))
 
   feature_list = parse_acc(acc_file, instruction_dict, variable_dict)
+
+  # Print out the headers
+  headers = "addr,size,if_static,if_const,if_global,if_pointer,lifetime," \
+      + "access_type,historical_percentage,mem_dist,branch_dist,reuse_dist," \
+      + "output"
+  # Print out the result
+  for sample in feature_list:
+    print("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}".format(
+      sample["addr"], sample["size"], sample["if_static"], sample["if_const"],
+      sample["if_global"], sample["if_pointer"], sample["lifetime"],
+      sample["access_type"], sample["historical_percentage"],
+      sample["mem_dist"], sample["branch_dist"], sample["reuse_dist"],
+      sample["output"]))
 
 if __name__ == "__main__":
   main()

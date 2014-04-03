@@ -113,10 +113,159 @@ def parse_dump(dump_file, function_dict):
       i = i + 1
   return function_dict
 
+def parse_elf_type(elf_content, line_index):
+  i = line_index
+  index_str = elf_content[line_index]
+  index_str = index_str[index_str.find(">") + 2:]
+  index_str = index_str[:index_str.find(">")]
+  type_index = index_str
+  type_size = 1
+  i = i + 1
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(" <1>"):
+      return [i, type_index, type_size]
+    else:
+      if "DW_AT_upper_bound" in line:
+        items = line.strip().split()
+        size_str = items[len(items) - 1]
+        type_size = int(size_str) + 1
+      i = i + 1
+
+def parse_elf_function(elf_content, line_index, type_dict):
+  i = line_index
+  term_str = elf_content[line_index]
+  term_str = term_str[:term_str.find(">") + 1]
+  func_name = ""
+  var_dict = {}
+  i = i + 1
+  low_pc = None
+  high_pc = None
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(term_str):
+      return [i, func_name, var_dict]
+    elif line.endswith("block)\n"):
+      [line_index, v_dict] = parse_elf_block(elf_content,
+                                             i, type_dict)
+      for key, value in v_dict.items():
+        var_dict[key] = value
+      i = line_index
+    elif line.endswith("variable)\n"):
+      [line_index, var_name, v_dict] = parse_elf_variable(elf_content,
+                                                          i, type_dict,
+                                                          low_pc, high_pc)
+      var_dict[var_name] = v_dict
+      i = line_index
+    else:
+      if "DW_AT_name" in line:
+        items = line.strip().split()
+        name_str = items[len(items) - 1]
+        func_name = name_str
+      elif "DW_AT_low_pc" in line:
+        items = line.strip().split()
+        pc_str = items[len(items) - 1]
+        low_pc = pc_str
+      elif "DW_AT_high_pc" in line:
+        items = line.strip().split()
+        pc_str = items[len(items) - 1]
+        high_pc = pc_str
+      i = i + 1
+
+def parse_elf_block(elf_content, line_index, type_dict):
+  i = line_index
+  term_str = elf_content[line_index]
+  term_str = term_str[:term_str.find(">") + 1]
+  var_dict = {}
+  i = i + 1
+  lower_pc = None
+  high_pc = None
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(term_str):
+      return [i, var_dict]
+    elif line.endswith("block)\n"):
+      [line_index, v_dict] = parse_elf_block(elf_content,
+                                             i, type_dict)
+      for key, value in v_dict.items():
+        var_dict[key] = value
+      i = line_index
+    elif line.endswith("variable)\n"):
+      [line_index, var_name, v_dict] = parse_elf_variable(elf_content,
+                                                          i, type_dict,
+                                                          low_pc, high_pc)
+      var_dict[var_name] = v_dict
+      i = line_index
+    else:
+      if "DW_AT_low_pc" in line:
+        items = line.strip().split()
+        pc_str = items[len(items) - 1]
+        low_pc = pc_str
+      elif "DW_AT_high_pc" in line:
+        items = line.strip().split()
+        pc_str = items[len(items) - 1]
+        high_pc = pc_str
+      i = i + 1
+
+def parse_elf_variable(elf_content, line_index, type_dict, low_pc, high_pc):
+  i = line_index
+  term_str = elf_content[line_index]
+  term_str = term_str[:term_str.find(">") + 1]
+  var_name = ""
+  var_dict = {"size": 1, "low_pc": low_pc, "high_pc": high_pc}
+  i = i + 1
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(term_str):
+      return [i, var_name, var_dict]
+    else:
+      if "DW_AT_name" in line:
+        items = line.strip().split()
+        name_str = items[len(items) - 1]
+        var_name = name_str
+      elif "DW_AT_type" in line:
+        items = line.strip().split()
+        type_str = items[len(items) - 1]
+        type_str = type_str[type_str.find("x") + 1:type_str.find(">")]
+        var_dict["size"] = type_dict[type_str]
+      i = i + 1
+
 # Parse the info dwarf section from readelf --debug-dump=info
 # @param elf_file The path to an existing elf file
 def parse_elf(elf_file):
   elf_content = read_by_line(elf_file)
+  #print(elf_content)
+  type_dict = {}
+  variable_dict = {"GLOBAL":{}}
+  # Parse types
+  i = 0
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(" <1>") and line.endswith("type)\n"):
+      [line_index, type_index, type_size] = parse_elf_type(elf_content,
+                                                           i)
+      type_dict[type_index] = type_size
+      i = line_index
+    else:
+      i = i + 1
+  # Parse variables
+  i = 0
+  while i < len(elf_content):
+    line = elf_content[i]
+    if line.startswith(" <1>") and line.endswith("subprogram)\n"):
+      [line_index, func_name, var_dict] = parse_elf_function(elf_content,
+                                                             i, type_dict)
+      variable_dict[func_name] = var_dict
+      i = line_index
+    elif line.startswith(" <1>") and line.endswith("variable)\n"):
+      [line_index, var_name, var_dict] = parse_elf_variable(elf_content,
+                                                            i, type_dict,
+                                                            None, None)
+      variable_dict["GLOBAL"][var_name] = var_dict
+      i = line_index
+    else:
+      i = i + 1
+  return variable_dict
 
 # Main function
 def main():
@@ -145,7 +294,7 @@ def main():
 
   function_dict = parse_asm(asm_file)
   function_dict = parse_dump(dump_file, function_dict)
-  parse_elf(elf_file)
+  variable_dict = parse_elf(elf_file)
 
 if __name__ == "__main__":
   main()

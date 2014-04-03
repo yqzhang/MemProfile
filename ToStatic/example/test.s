@@ -46,28 +46,30 @@ loop:
 	subq	$3992, %rsp	#,
 .L4:
 .LBB2:
-	.loc 1 4 0
-	movl	$0, -4100(%rbp)	#, i
 	.loc 1 5 0
-	movl	$0, -4100(%rbp)	#, i
+	movl	$0, -4104(%rbp)	#, i
 	jmp	.L2	#
 .L3:
+.LBB3:
 	.loc 1 6 0 discriminator 2
-	movl	-4100(%rbp), %eax	# i, tmp63
+	movl	$1, -4100(%rbp)	#, j
+	.loc 1 7 0 discriminator 2
+	movl	-4104(%rbp), %eax	# i, tmp63
 	cltq
-	movl	-4096(%rbp,%rax,4), %eax	# a, D.1737
-	leal	1(%rax), %edx	#, D.1737
-	movl	-4100(%rbp), %eax	# i, tmp65
+	movl	-4096(%rbp,%rax,4), %eax	# a, D.1738
+	leal	1(%rax), %edx	#, D.1738
+	movl	-4104(%rbp), %eax	# i, tmp65
 	cltq
-	movl	%edx, -4096(%rbp,%rax,4)	# D.1737, a
+	movl	%edx, -4096(%rbp,%rax,4)	# D.1738, a
+.LBE3:
 	.loc 1 5 0 discriminator 2
-	addl	$1, -4100(%rbp)	#, i
+	addl	$1, -4104(%rbp)	#, i
 .L2:
 	.loc 1 5 0 is_stmt 0 discriminator 1
-	cmpl	$1023, -4100(%rbp)	#, i
+	cmpl	$1023, -4104(%rbp)	#, i
 	jle	.L3	#,
 .LBE2:
-	.loc 1 8 0 is_stmt 1
+	.loc 1 9 0 is_stmt 1
 	jmp	.L4	#
 	.cfi_endproc
 .LFE0:
@@ -77,7 +79,7 @@ loop:
 	.type	main, @function
 main:
 .LFB1:
-	.loc 1 13 0
+	.loc 1 14 0
 	.cfi_startproc
 	pushq	%rbp	#
 	.cfi_def_cfa_offset 16
@@ -85,14 +87,14 @@ main:
 	movq	%rsp, %rbp	#,
 	.cfi_def_cfa_register 6
 	subq	$16, %rsp	#,
-	.loc 1 14 0
+	.loc 1 15 0
 	movl	$10, -4(%rbp)	#, main_a
-	.loc 1 16 0
+	.loc 1 17 0
 	movl	$0, %eax	#,
 	call	loop	#
-	.loc 1 18 0
-	movl	$0, %eax	#, D.1738
 	.loc 1 19 0
+	movl	$0, %eax	#, D.1739
+	.loc 1 20 0
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -102,7 +104,7 @@ main:
 .Letext0:
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0xec
+	.long	0x10b
 	.value	0x4
 	.long	.Ldebug_abbrev0
 	.byte	0x8
@@ -118,17 +120,17 @@ main:
 	.long	.LASF1
 	.byte	0x1
 	.byte	0x1
-	.long	0x7b
+	.long	0x9a
 	.quad	.LFB0
 	.quad	.LFE0-.LFB0
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0x7b
+	.long	0x9a
 	.uleb128 0x3
 	.string	"a"
 	.byte	0x1
 	.byte	0x2
-	.long	0x82
+	.long	0xa1
 	.uleb128 0x3
 	.byte	0x91
 	.sleb128 -4112
@@ -139,10 +141,22 @@ main:
 	.string	"i"
 	.byte	0x1
 	.byte	0x4
-	.long	0x7b
+	.long	0x9a
+	.uleb128 0x3
+	.byte	0x91
+	.sleb128 -4120
+	.uleb128 0x4
+	.quad	.LBB3
+	.quad	.LBE3-.LBB3
+	.uleb128 0x3
+	.string	"j"
+	.byte	0x1
+	.byte	0x6
+	.long	0x9a
 	.uleb128 0x3
 	.byte	0x91
 	.sleb128 -4116
+	.byte	0
 	.byte	0
 	.byte	0
 	.uleb128 0x5
@@ -150,10 +164,10 @@ main:
 	.byte	0x5
 	.string	"int"
 	.uleb128 0x6
-	.long	0x7b
-	.long	0x93
+	.long	0x9a
+	.long	0xb2
 	.uleb128 0x7
-	.long	0x93
+	.long	0xb2
 	.value	0x3ff
 	.byte	0
 	.uleb128 0x8
@@ -163,34 +177,34 @@ main:
 	.uleb128 0x9
 	.long	.LASF2
 	.byte	0x1
-	.byte	0xd
-	.long	0x7b
+	.byte	0xe
+	.long	0x9a
 	.quad	.LFB1
 	.quad	.LFE1-.LFB1
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0xca
+	.long	0xe9
 	.uleb128 0xa
 	.long	.LASF3
 	.byte	0x1
-	.byte	0xe
-	.long	0x7b
+	.byte	0xf
+	.long	0x9a
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 -20
 	.byte	0
 	.uleb128 0x6
-	.long	0x7b
-	.long	0xda
+	.long	0x9a
+	.long	0xf9
 	.uleb128 0xb
-	.long	0x93
+	.long	0xb2
 	.byte	0x13
 	.byte	0
 	.uleb128 0xc
 	.long	.LASF7
 	.byte	0x1
-	.byte	0xb
-	.long	0xca
+	.byte	0xc
+	.long	0xe9
 	.uleb128 0x9
 	.byte	0x3
 	.quad	global_a

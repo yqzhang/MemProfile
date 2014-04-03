@@ -42,7 +42,7 @@ Disassembly of section .text:
   40040e:	54                   	push   %rsp
   40040f:	49 c7 c0 00 06 40 00 	mov    $0x400600,%r8
   400416:	48 c7 c1 70 05 40 00 	mov    $0x400570,%rcx
-  40041d:	48 c7 c7 44 05 40 00 	mov    $0x400544,%rdi
+  40041d:	48 c7 c7 4e 05 40 00 	mov    $0x40054e,%rdi
   400424:	e8 b7 ff ff ff       	callq  4003e0 <__libc_start_main@plt>
   400429:	f4                   	hlt    
   40042a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
@@ -117,36 +117,36 @@ Disassembly of section .text:
   4004ed:	55                   	push   %rbp
   4004ee:	48 89 e5             	mov    %rsp,%rbp
   4004f1:	48 81 ec 98 0f 00 00 	sub    $0xf98,%rsp
-  4004f8:	c7 85 fc ef ff ff 00 	movl   $0x0,-0x1004(%rbp)
+  4004f8:	c7 85 f8 ef ff ff 00 	movl   $0x0,-0x1008(%rbp)
   4004ff:	00 00 00 
-  400502:	c7 85 fc ef ff ff 00 	movl   $0x0,-0x1004(%rbp)
+  400502:	c7 85 f8 ef ff ff 00 	movl   $0x0,-0x1008(%rbp)
   400509:	00 00 00 
-  40050c:	eb 28                	jmp    400536 <loop+0x49>
-  40050e:	8b 85 fc ef ff ff    	mov    -0x1004(%rbp),%eax
-  400514:	48 98                	cltq   
-  400516:	8b 84 85 00 f0 ff ff 	mov    -0x1000(%rbp,%rax,4),%eax
-  40051d:	8d 50 01             	lea    0x1(%rax),%edx
-  400520:	8b 85 fc ef ff ff    	mov    -0x1004(%rbp),%eax
-  400526:	48 98                	cltq   
-  400528:	89 94 85 00 f0 ff ff 	mov    %edx,-0x1000(%rbp,%rax,4)
-  40052f:	83 85 fc ef ff ff 01 	addl   $0x1,-0x1004(%rbp)
-  400536:	81 bd fc ef ff ff ff 	cmpl   $0x3ff,-0x1004(%rbp)
-  40053d:	03 00 00 
-  400540:	7e cc                	jle    40050e <loop+0x21>
-  400542:	eb b4                	jmp    4004f8 <loop+0xb>
+  40050c:	eb 32                	jmp    400540 <loop+0x53>
+  40050e:	c7 85 fc ef ff ff 01 	movl   $0x1,-0x1004(%rbp)
+  400515:	00 00 00 
+  400518:	8b 85 f8 ef ff ff    	mov    -0x1008(%rbp),%eax
+  40051e:	48 98                	cltq   
+  400520:	8b 84 85 00 f0 ff ff 	mov    -0x1000(%rbp,%rax,4),%eax
+  400527:	8d 50 01             	lea    0x1(%rax),%edx
+  40052a:	8b 85 f8 ef ff ff    	mov    -0x1008(%rbp),%eax
+  400530:	48 98                	cltq   
+  400532:	89 94 85 00 f0 ff ff 	mov    %edx,-0x1000(%rbp,%rax,4)
+  400539:	83 85 f8 ef ff ff 01 	addl   $0x1,-0x1008(%rbp)
+  400540:	81 bd f8 ef ff ff ff 	cmpl   $0x3ff,-0x1008(%rbp)
+  400547:	03 00 00 
+  40054a:	7e c2                	jle    40050e <loop+0x21>
+  40054c:	eb aa                	jmp    4004f8 <loop+0xb>
 
-0000000000400544 <main>:
-  400544:	55                   	push   %rbp
-  400545:	48 89 e5             	mov    %rsp,%rbp
-  400548:	48 83 ec 10          	sub    $0x10,%rsp
-  40054c:	c7 45 fc 0a 00 00 00 	movl   $0xa,-0x4(%rbp)
-  400553:	b8 00 00 00 00       	mov    $0x0,%eax
-  400558:	e8 90 ff ff ff       	callq  4004ed <loop>
+000000000040054e <main>:
+  40054e:	55                   	push   %rbp
+  40054f:	48 89 e5             	mov    %rsp,%rbp
+  400552:	48 83 ec 10          	sub    $0x10,%rsp
+  400556:	c7 45 fc 0a 00 00 00 	movl   $0xa,-0x4(%rbp)
   40055d:	b8 00 00 00 00       	mov    $0x0,%eax
-  400562:	c9                   	leaveq 
-  400563:	c3                   	retq   
-  400564:	66 2e 0f 1f 84 00 00 	nopw   %cs:0x0(%rax,%rax,1)
-  40056b:	00 00 00 
+  400562:	e8 86 ff ff ff       	callq  4004ed <loop>
+  400567:	b8 00 00 00 00       	mov    $0x0,%eax
+  40056c:	c9                   	leaveq 
+  40056d:	c3                   	retq   
   40056e:	66 90                	xchg   %ax,%ax
 
 0000000000400570 <__libc_csu_init>:

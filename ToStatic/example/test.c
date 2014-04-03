@@ -1,8 +1,9 @@
 loop() {
   int a[1024];
   while (1) {
-    int i = 0;
+    int i;
     for (i = 0; i < 1024; i++) {
+      int j = 1;
       a[i]++;
     }
   }

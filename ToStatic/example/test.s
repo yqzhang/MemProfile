@@ -56,11 +56,11 @@ loop:
 	.loc 1 7 0 discriminator 2
 	movl	-4104(%rbp), %eax	# i, tmp63
 	cltq
-	movl	-4096(%rbp,%rax,4), %eax	# a, D.1738
-	leal	1(%rax), %edx	#, D.1738
+	movl	-4096(%rbp,%rax,4), %eax	# a, D.1741
+	leal	1(%rax), %edx	#, D.1741
 	movl	-4104(%rbp), %eax	# i, tmp65
 	cltq
-	movl	%edx, -4096(%rbp,%rax,4)	# D.1738, a
+	movl	%edx, -4096(%rbp,%rax,4)	# D.1741, a
 .LBE3:
 	.loc 1 5 0 discriminator 2
 	addl	$1, -4104(%rbp)	#, i
@@ -74,12 +74,15 @@ loop:
 	.cfi_endproc
 .LFE0:
 	.size	loop, .-loop
-	.comm	global_a,80,32
+	.comm	global_const,80,32
+	.local	global_static
+	.comm	global_static,320,32
+	.comm	global_dim,551,32
 	.globl	main
 	.type	main, @function
 main:
 .LFB1:
-	.loc 1 14 0
+	.loc 1 16 0
 	.cfi_startproc
 	pushq	%rbp	#
 	.cfi_def_cfa_offset 16
@@ -87,32 +90,40 @@ main:
 	movq	%rsp, %rbp	#,
 	.cfi_def_cfa_register 6
 	subq	$16, %rsp	#,
-	.loc 1 15 0
-	movl	$10, -4(%rbp)	#, main_a
-	.loc 1 17 0
+	.loc 1 18 0
+	movabsq	$4626322717216342016, %rax	#, tmp61
+	movq	%rax, -8(%rbp)	# tmp61, main_const
+	.loc 1 20 0
 	movl	$0, %eax	#,
 	call	loop	#
-	.loc 1 19 0
-	movl	$0, %eax	#, D.1739
-	.loc 1 20 0
+	.loc 1 22 0
+	movl	$0, %eax	#, D.1742
+	.loc 1 23 0
 	leave
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
 .LFE1:
 	.size	main, .-main
+	.data
+	.align 4
+	.type	main_static.1732, @object
+	.size	main_static.1732, 4
+main_static.1732:
+	.long	10
+	.text
 .Letext0:
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x10b
+	.long	0x188
 	.value	0x4
 	.long	.Ldebug_abbrev0
 	.byte	0x8
 	.uleb128 0x1
-	.long	.LASF4
+	.long	.LASF10
 	.byte	0x1
-	.long	.LASF5
-	.long	.LASF6
+	.long	.LASF11
+	.long	.LASF12
 	.quad	.Ltext0
 	.quad	.Letext0-.Ltext0
 	.long	.Ldebug_line0
@@ -177,37 +188,90 @@ main:
 	.uleb128 0x9
 	.long	.LASF2
 	.byte	0x1
-	.byte	0xe
+	.byte	0x10
 	.long	0x9a
 	.quad	.LFB1
 	.quad	.LFE1-.LFB1
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0xe9
+	.long	0xfe
 	.uleb128 0xa
 	.long	.LASF3
 	.byte	0x1
-	.byte	0xf
+	.byte	0x11
 	.long	0x9a
+	.uleb128 0x9
+	.byte	0x3
+	.quad	main_static.1732
+	.uleb128 0xa
+	.long	.LASF4
+	.byte	0x1
+	.byte	0x12
+	.long	0xfe
 	.uleb128 0x2
 	.byte	0x91
-	.sleb128 -20
+	.sleb128 -24
 	.byte	0
+	.uleb128 0xb
+	.long	0x103
+	.uleb128 0x8
+	.byte	0x8
+	.byte	0x4
+	.long	.LASF5
+	.uleb128 0x6
+	.long	0x103
+	.long	0x11a
+	.uleb128 0xc
+	.long	0xb2
+	.byte	0x27
+	.byte	0
+	.uleb128 0xa
+	.long	.LASF6
+	.byte	0x1
+	.byte	0xd
+	.long	0x10a
+	.uleb128 0x9
+	.byte	0x3
+	.quad	global_static
 	.uleb128 0x6
 	.long	0x9a
-	.long	0xf9
-	.uleb128 0xb
+	.long	0x13f
+	.uleb128 0xc
 	.long	0xb2
 	.byte	0x13
 	.byte	0
-	.uleb128 0xc
-	.long	.LASF7
+	.uleb128 0xd
+	.long	.LASF8
 	.byte	0x1
 	.byte	0xc
-	.long	0xe9
+	.long	0x154
 	.uleb128 0x9
 	.byte	0x3
-	.quad	global_a
+	.quad	global_const
+	.uleb128 0xb
+	.long	0x12f
+	.uleb128 0x6
+	.long	0x16f
+	.long	0x16f
+	.uleb128 0xc
+	.long	0xb2
+	.byte	0x12
+	.uleb128 0xc
+	.long	0xb2
+	.byte	0x1c
+	.byte	0
+	.uleb128 0x8
+	.byte	0x1
+	.byte	0x6
+	.long	.LASF7
+	.uleb128 0xd
+	.long	.LASF9
+	.byte	0x1
+	.byte	0xe
+	.long	0x159
+	.uleb128 0x9
+	.byte	0x3
+	.quad	global_dim
 	.byte	0
 	.section	.debug_abbrev,"",@progbits
 .Ldebug_abbrev0:
@@ -360,6 +424,13 @@ main:
 	.byte	0
 	.byte	0
 	.uleb128 0xb
+	.uleb128 0x26
+	.byte	0
+	.uleb128 0x49
+	.uleb128 0x13
+	.byte	0
+	.byte	0
+	.uleb128 0xc
 	.uleb128 0x21
 	.byte	0
 	.uleb128 0x49
@@ -368,7 +439,7 @@ main:
 	.uleb128 0xb
 	.byte	0
 	.byte	0
-	.uleb128 0xc
+	.uleb128 0xd
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -401,21 +472,31 @@ main:
 	.section	.debug_line,"",@progbits
 .Ldebug_line0:
 	.section	.debug_str,"MS",@progbits,1
-.LASF4:
+.LASF10:
 	.string	"GNU C 4.8.1 -mtune=generic -march=x86-64 -g -fstack-protector"
-.LASF3:
-	.string	"main_a"
+.LASF4:
+	.string	"main_const"
+.LASF8:
+	.string	"global_const"
+.LASF6:
+	.string	"global_static"
+.LASF5:
+	.string	"double"
 .LASF2:
 	.string	"main"
+.LASF3:
+	.string	"main_static"
 .LASF1:
 	.string	"loop"
 .LASF0:
 	.string	"sizetype"
-.LASF5:
+.LASF11:
 	.string	"test.c"
-.LASF7:
-	.string	"global_a"
-.LASF6:
+.LASF9:
+	.string	"global_dim"
+.LASF12:
 	.string	"/home/yunqi/MemProfile/ToStatic/example"
+.LASF7:
+	.string	"char"
 	.ident	"GCC: (Ubuntu/Linaro 4.8.1-10ubuntu9) 4.8.1"
 	.section	.note.GNU-stack,"",@progbits

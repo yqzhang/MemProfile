@@ -5,6 +5,7 @@
 ## Email: yunqi@umich.edu
 
 import argparse
+import json
 
 import os.path
 
@@ -149,18 +150,24 @@ def parse_elf_type(elf_content, line_index):
   index_str = index_str[:index_str.find(">")]
   type_index = index_str
   type_size = 1
+  if_const = False
+  const_str = elf_content[line_index]
+  if "const_type" in const_str:
+    if_const = True
+  else:
+    if_const = False
   i = i + 1
   while i < len(elf_content):
     line = elf_content[i]
     if line.startswith(" <1>"):
       # The end of this type section
-      return [i, type_index, type_size]
+      return [i, type_index, type_size, if_const]
     else:
       # type_size = upper_bound + 1
       if "DW_AT_upper_bound" in line:
         items = line.strip().split()
         size_str = items[len(items) - 1]
-        type_size = int(size_str) + 1
+        type_size = type_size * (int(size_str) + 1)
       i = i + 1
 
 # Parse a function section in the elf file
@@ -280,7 +287,13 @@ def parse_elf_variable(elf_content, line_index, type_dict, low_pc, high_pc):
   term_str = elf_content[line_index]
   term_str = term_str[:term_str.find(">") + 1]
   var_name = ""
-  var_dict = {"size": 1, "low_pc": low_pc, "high_pc": high_pc}
+  var_dict = {
+      "size": 1,
+      "low_pc": low_pc,
+      "high_pc": high_pc,
+      "if_static": False,
+      "if_const": False
+      }
   i = i + 1
   while i < len(elf_content):
     line = elf_content[i]
@@ -298,7 +311,16 @@ def parse_elf_variable(elf_content, line_index, type_dict, low_pc, high_pc):
         type_str = items[len(items) - 1]
         type_str = type_str[type_str.find("x") + 1:type_str.find(">")]
         # Look up the type_dict to get the size
-        var_dict["size"] = type_dict[type_str]
+        var_dict["size"] = type_dict[type_str]["size"]
+        var_dict["if_const"] = type_dict[type_str]["if_const"]
+      elif "DW_AT_location" in line:
+        # Check if it is a static variable
+        items = line.strip().split()
+        static_str = items[len(items) - 1]
+        static_str = static_str[:-1]
+        static_addr = int(static_str, 16)
+        if static_addr > 0:
+          var_dict["if_static"] = True
       i = i + 1
 
 # Parse the info dwarf section from readelf --debug-dump=info
@@ -315,9 +337,11 @@ def parse_elf(elf_file):
   while i < len(elf_content):
     line = elf_content[i]
     if line.startswith(" <1>") and line.endswith("type)\n"):
-      [line_index, type_index, type_size] = parse_elf_type(elf_content,
-                                                           i)
-      type_dict[type_index] = type_size
+      [line_index, type_index, type_size, if_const] = parse_elf_type(elf_content,
+                                                                     i)
+      type_dict[type_index] = {}
+      type_dict[type_index]["size"] = type_size
+      type_dict[type_index]["if_const"] = if_const
       i = line_index
     else:
       i = i + 1
@@ -383,7 +407,9 @@ def main():
 
   function_dict = parse_asm(asm_file)
   function_dict = parse_dump(dump_file, function_dict)
+  print(json.dumps(function_dict, indent=2))
   variable_dict = parse_elf(elf_file)
+  print(json.dumps(variable_dict, indent=2))
   feature_list = parse_acc(acc_file, function_dict, variable_dict)
 
 if __name__ == "__main__":

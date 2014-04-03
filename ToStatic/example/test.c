@@ -9,10 +9,13 @@ loop() {
   }
 }
 
-int global_a[20];
+const int global_const[20];
+static double global_static[40];
+char global_dim[19][29];
 
 int main() {
-  int main_a = 10;
+  static int main_static = 10;
+  const double main_const = 20;
 
   loop();
   

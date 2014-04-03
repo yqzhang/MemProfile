@@ -404,6 +404,21 @@ def index_by_addr(function_dict):
       instruction_dict[dict_key] = dict_value
   return instruction_dict
 
+def calculate_lifetime(variable_dict, instruction_dict):
+  for func_name, variables in variable_dict.items():
+    for var_name, var_dict in variables.items():
+      if var_dict["low_pc"] is None and var_dict["high_pc"] is None:
+        variable_dict[func_name][var_name]["lifetime"] = len(instruction_dict)
+      else:
+        low_pc = int(var_dict["low_pc"], 16)
+        high_pc = low_pc + int(var_dict["high_pc"], 16)
+        lifetime = 0
+        for inst, inst_dict in instruction_dict.items():
+          if inst >= low_pc and inst <= high_pc:
+            lifetime = lifetime + 1
+        variable_dict[func_name][var_name]["lifetime"] = lifetime
+  return variable_dict
+
 # Parse the memory accesses profile
 # @param acc_file The memory accesses profiling file
 # @instruction_dict The dictionary to instructions
@@ -417,7 +432,7 @@ def parse_acc(acc_file, instruction_dict, variable_dict):
     line = acc_content[i]
     # R/W inst_addr mem_addr mem_dist branch_dist
     items = line.strip().split()
-    inst_addr = int(items[1])
+    inst_addr = int(items[1], 16)
     inst_count = inst_count + int(items[3])
     # The total number of instructions so far
     tracking_dict[items[2]]["last_access"] = inst_count
@@ -432,6 +447,7 @@ def parse_acc(acc_file, instruction_dict, variable_dict):
       # size, if_static, if_const, if_global, if_pointer, lifetime,
       # access_type, historical_percentage, mem_dist, branch_dist, reuse_dist
       # TODO
+      pass
     i = i + 1
 
 # Main function
@@ -474,6 +490,10 @@ def main():
   # All the indexing addresses are integers
   instruction_dict = index_by_addr(function_dict)
   #print(json.dumps(instruction_dict, indent=2))
+
+  # Calculate the lifetime (#instructions) of each variable
+  variable_dict = calculate_lifetime(variable_dict, instruction_dict)
+  #print(json.dumps(variable_dict, indent=2))
 
   feature_list = parse_acc(acc_file, instruction_dict, variable_dict)
 

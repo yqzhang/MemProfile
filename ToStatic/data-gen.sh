@@ -4,14 +4,15 @@ BENCHMARK=( "bzip2" "gcc" "h264ref" "hmmer" "lbm" "libquantum" "mcf" "milc"
   "perlbench" "sjeng" "sphinx3" )
 
 for bench in "${BENCHMARK[@]}"
+#for bench in "bzip2"
 do
-  echo "[LOG] Generate files for ${bench} ..."
-  # Generate the elf file
-  readelf --debug-dump=info "benchmark/${bench}-static" \
-    > "benchmark/${bench}.elf"
-  # Generate the dump file
-  objdump -d "benchmark/${bench}-static" \
-    > "benchmark/${bench}.dump"
+  #echo "[LOG] Generate files for ${bench} ..."
+  ## Generate the elf file
+  #readelf --debug-dump=info "benchmark/${bench}-static" \
+  #  > "benchmark/${bench}.elf"
+  ## Generate the dump file
+  #objdump -d "benchmark/${bench}-static" \
+  #  > "benchmark/${bench}.dump"
 
   echo "[LOG] Run ${bench} through the pipeline ..."
   # List all the asm files

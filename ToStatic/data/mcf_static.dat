@@ -1,0 +1,10 @@
+size,if_static,if_const,if_global,if_pointer,if_enum,lifetime,output
+1,False,False,False,False,False,65,0.5
+1,False,False,False,True,False,65,0.5
+1,False,False,False,True,False,606,0.000252716704574
+1,False,False,False,True,False,606,0.00126143172501
+1,False,False,False,False,False,606,0.333473728546
+1,False,False,False,False,False,606,0.333614153328
+1,False,False,False,False,False,606,0.0668407530641
+1,False,False,False,True,False,606,0.000342492820824
+1,False,False,False,True,False,606,0.0667252222183

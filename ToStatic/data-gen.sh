@@ -22,4 +22,8 @@ do
   python ToStatic.py -a "benchmark/${bench}.prof" -s $asm_file \
     -d "benchmark/${bench}.dump" -r "benchmark/${bench}.elf" \
     > "benchmark/${bench}.dat"
+  
+  # Generate the static only dataset
+  python StaticOnly.py \
+    -i "data/${bench}.dat" -o "data/${bench}_static.dat"
 done

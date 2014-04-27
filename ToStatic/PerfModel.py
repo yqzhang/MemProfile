@@ -27,9 +27,11 @@ def simulate(p_input, p_sram_size, p_sttram_size, p_hit_rate,
   total_latency_sttram = 0
   total_latency_sram = 0
   total_latency_oracle = 0
+  total_latency_random = 0
   total_energy_sttram = 0
   total_energy_sram = 0
   total_energy_oracle = 0
+  total_energy_random = 0
   # Loop through all the accesses
   input_fp = open(p_input)
   for line in input_fp:
@@ -137,10 +139,52 @@ def simulate(p_input, p_sram_size, p_sttram_size, p_hit_rate,
           total_latency_oracle = total_latency_oracle + p_latency_dram_write
           total_energy_oracle = total_energy_oracle + p_energy_dram_write
 
+    # Random
+    r = np.random.binomial(1, 0.5)
+    if r < 0.5:
+      # in STT-RAM
+      r = np.random.binomial(1, stt_hit_ratio)
+      if r == 1:
+        # hit
+        if access_type == "R":
+          total_latency_random = total_latency_random + p_latency_sttram_read
+          total_energy_random = total_energy_random + p_energy_sttram_read
+        else:
+          total_latency_random = total_latency_random + p_latency_sttram_write
+          total_energy_random = total_energy_random + p_energy_sttram_write
+      else:
+        # miss
+        if access_type == "R":
+          total_latency_random = total_latency_random + p_latency_dram_read
+          total_energy_random = total_energy_random + p_energy_dram_read
+        else:
+          total_latency_random = total_latency_random + p_latency_dram_write
+          total_energy_random = total_energy_random + p_energy_dram_write
+    else:
+      # in SRAM
+      r = np.random.binomial(1, p_hit_rate)
+      if r == 1:
+        # hit
+        if access_type == "R":
+          total_latency_random = total_latency_random + p_latency_sram_read
+          total_energy_random = total_energy_random + p_energy_sram_read
+        else:
+          total_latency_random = total_latency_random + p_latency_sram_write
+          total_energy_random = total_energy_random + p_energy_sram_write
+      else:
+        # miss
+        if access_type == "R":
+          total_latency_random = total_latency_random + p_latency_dram_read
+          total_energy_random = total_energy_random + p_energy_dram_read
+        else:
+          total_latency_random = total_latency_random + p_latency_dram_write
+          total_energy_random = total_energy_random + p_energy_dram_write
+
   # Leakage power
   total_energy_sram = total_energy_sram * (1 + p_leakage)
   total_energy_sttram = total_energy_sttram * (1 + p_leakage / 2)
   total_energy_oracle = total_energy_oracle * (1 + p_leakage / 2)
+  total_energy_random = total_energy_random * (1 + p_leakage / 2)
   """
   print("SRAM: latency - {0}, energy - {1}".format(total_latency_sram,
                                                    total_energy_sram))
@@ -154,7 +198,8 @@ def simulate(p_input, p_sram_size, p_sttram_size, p_hit_rate,
 
   return [total_latency_sram, total_energy_sram,
           total_latency_sttram, total_energy_sttram,
-          total_latency_oracle, total_energy_oracle]
+          total_latency_oracle, total_energy_oracle,
+          total_latency_random, total_energy_random]
 
 def main():
   # Parse the arguments
@@ -220,7 +265,8 @@ def main():
   for threshold in THRESHOLD_LIST:
     [total_latency_sram, total_energy_sram,
      total_latency_sttram, total_energy_sttram,
-     total_latency_oracle, total_energy_oracle] = simulate(p_input,
+     total_latency_oracle, total_energy_oracle,
+     total_latency_random, total_energy_random] = simulate(p_input,
                                                            p_sram_size,
                                                            p_sttram_size,
                                                            p_hit_rate,
@@ -249,7 +295,8 @@ def main():
   print(min_latency_threshold)
   [total_latency_sram, total_energy_sram,
    total_latency_sttram, total_energy_sttram,
-   total_latency_oracle, total_energy_oracle] = simulate(p_input,
+   total_latency_oracle, total_energy_oracle,
+   total_latency_random, total_energy_random] = simulate(p_input,
                                                          p_sram_size,
                                                          p_sttram_size,
                                                          p_hit_rate,
@@ -273,12 +320,25 @@ def main():
                                                       total_energy_sttram))
   print("Oracle: latency - {0}, energy - {1}".format(total_latency_oracle,
                                                      total_energy_oracle))
+  print("Random: latency - {0}, energy - {1}".format(total_latency_random,
+                                                     total_energy_random))
+  improve_sttram = float(total_latency_sram - total_latency_sttram) \
+      / float(total_latency_sram)
+  improve_oracle = float(total_latency_sram - total_latency_oracle) \
+      / float(total_latency_sram)
+  improve_random = float(total_latency_sram - total_latency_random) \
+      / float(total_latency_sram)
+  print("Improvemnt:")
+  print("\tSTT-RAM: {0}".format(improve_sttram))
+  print("\tOracle: {0}".format(improve_oracle))
+  print("\tRandom: {0}".format(improve_random))
 
   print("optimize - energy")
   print(min_energy_threshold)
   [total_latency_sram, total_energy_sram,
    total_latency_sttram, total_energy_sttram,
-   total_latency_oracle, total_energy_oracle] = simulate(p_input,
+   total_latency_oracle, total_energy_oracle,
+   total_latency_random, total_energy_random] = simulate(p_input,
                                                          p_sram_size,
                                                          p_sttram_size,
                                                          p_hit_rate,
@@ -302,6 +362,18 @@ def main():
                                                       total_energy_sttram))
   print("Oracle: latency - {0}, energy - {1}".format(total_latency_oracle,
                                                      total_energy_oracle))
+  print("Random: latency - {0}, energy - {1}".format(total_latency_random,
+                                                     total_energy_random))
+  improve_sttram = (total_energy_sram - total_energy_sttram) \
+      / total_energy_sram
+  improve_oracle = (total_energy_sram - total_energy_oracle) \
+      / total_energy_sram
+  improve_random = (total_energy_sram - total_energy_random) \
+      / total_energy_sram
+  print("Improvemnt:")
+  print("\tSTT-RAM: {0}".format(improve_sttram))
+  print("\tOracle: {0}".format(improve_oracle))
+  print("\tRandom: {0}".format(improve_random))
 
 if __name__ == "__main__":
   main()
